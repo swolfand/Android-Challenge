@@ -161,4 +161,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/next_activity_recycler" />
 
+    <TextView
+        android:id="@+id/play_pause_label"
+        style="@style/ActivityLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/up_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_separator_1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
