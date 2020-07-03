@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TickTock</string>
+    <string name="timer_separator">:</string>
 </resources>
