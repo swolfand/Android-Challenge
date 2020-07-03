@@ -122,7 +122,8 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_label" />
+        app:layout_constraintTop_toBottomOf="@id/current_activity_label"
+        tools:listitem="@layout/item_activity" />
 
     <View
         android:id="@+id/activity_separator_1"
@@ -146,6 +147,7 @@
         android:id="@+id/next_activity_recycler"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        tools:listitem="@layout/item_activity"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
