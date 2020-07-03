@@ -3,4 +3,5 @@
     <string name="timer_separator">:</string>
     <string name="current_activities">Current Activities:</string>
     <string name="up_next">Up Next:</string>
+    <string name="groups_change_in">Groups Change In</string>
 </resources>
