@@ -8,28 +8,54 @@
     tools:context=".MainActivity">
 
     <View
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/highlighter"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/action_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_semibold"
+        android:text="@string/activity_paused"
+        android:textAllCaps="true"
+        android:textColor="@color/raspberry"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/action_bar"
+        app:layout_constraintEnd_toEndOf="@id/action_bar"
+        app:layout_constraintStart_toStartOf="@id/action_bar"
+        app:layout_constraintTop_toTopOf="@id/action_bar" />
+
+    <View
         android:id="@+id/background"
         android:layout_width="wrap_content"
         android:layout_height="300dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/action_bar" />
 
     <TextView
         android:id="@+id/timer_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginBottom="100dp"
         android:fontFamily="@font/open_sans_bold"
         android:gravity="center"
+        android:text="@string/groups_change_in"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:text="@string/groups_change_in"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/background"
+        app:layout_constraintEnd_toEndOf="@id/background"
+        app:layout_constraintStart_toStartOf="@id/background"
+        app:layout_constraintTop_toTopOf="@id/background"
         tools:text="Groups Change In" />
 
     <androidx.constraintlayout.widget.Group
@@ -166,9 +192,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_separator_2"
-        tools:text="pause Drill" />
+        tools:text="Play Drill" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="175dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:cornerRadius="1000dp"
+        app:icon="@drawable/ic_play_arrow"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/pause_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="pause_button,stop_button" />
+
+    <ImageView
+        android:id="@+id/pause_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/pause"
+        android:src="@drawable/ic_pause_circle"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/stop_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
+
+    <ImageView
+        android:id="@+id/stop_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_stop_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pause_button"
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
