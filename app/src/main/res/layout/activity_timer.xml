@@ -8,6 +8,7 @@
     tools:context=".ui.TimerActivity">
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/action_bar_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -134,17 +135,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/background" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/current_activity_recycler"
+    <HorizontalScrollView
+        android:id="@+id/current_activity_scroll"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_label"
-        tools:listitem="@layout/item_activity" />
+        app:layout_constraintTop_toBottomOf="@id/current_activity_label">
+
+        <LinearLayout
+            android:id="@+id/current_activity_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_activity">
+
+            <!-- Uncomment to preview in editor -->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <View
         android:id="@+id/activity_separator_1"
@@ -153,38 +172,59 @@
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_recycler" />
+        app:layout_constraintTop_toBottomOf="@id/current_activity_scroll" />
 
     <TextView
         android:id="@+id/next_activity_label"
         style="@style/ActivityLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="18dp"
         android:text="@string/up_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_separator_1" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/next_activity_recycler"
+    <HorizontalScrollView
+        android:id="@+id/next_activity_scroll"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="18dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/next_activity_label"
-        tools:listitem="@layout/item_activity" />
+        tools:listitem="@layout/item_activity">
+
+
+        <LinearLayout
+            android:id="@+id/next_activity_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_activity">
+
+            <!-- Uncomment to preview in editor -->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+            <!-- <include layout="@layout/item_activity" />-->
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <View
         android:id="@+id/activity_separator_2"
         style="@style/ActivityDivider"
         android:layout_width="match_parent"
-        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/next_activity_recycler" />
+        app:layout_constraintTop_toBottomOf="@id/next_activity_scroll" />
 
     <TextView
         android:id="@+id/play_pause_label"
@@ -248,13 +288,13 @@
         tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/pause_replay"
+        android:id="@+id/resume_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="replay_button,stop_button" />
+        app:constraint_referenced_ids="@+id/resume_button,stop_button" />
 
     <ImageView
-        android:id="@+id/replay_button"
+        android:id="@+id/resume_button"
         android:layout_width="@dimen/circular_button_radius"
         android:layout_height="@dimen/circular_button_radius"
         android:layout_marginEnd="@dimen/spacing_standard"
@@ -280,7 +320,7 @@
         android:focusable="true"
         android:src="@drawable/ic_stop_circle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/replay_button"
+        app:layout_constraintStart_toEndOf="@id/resume_button"
         app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

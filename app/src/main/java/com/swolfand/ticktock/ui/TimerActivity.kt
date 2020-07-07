@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.ReplayRelay
+import com.swolfand.ticktock.R
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
 
 import com.swolfand.ticktock.plusAssign
@@ -27,10 +28,6 @@ class TimerActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.playButton.setOnClickListener {
-            startTimer()
-        }
-
         timerState.subscribe {
             when (it) {
                 Running -> setRunningViewState()
@@ -38,18 +35,11 @@ class TimerActivity : AppCompatActivity() {
                 Paused -> setPausedViewState()
             }
         }
-    }
 
-    private fun setPausedViewState() {
-
-    }
-
-    private fun setStoppedViewState() {
-// TODO
-    }
-
-    private fun setRunningViewState() {
-// TODO
+        binding.playButton.setOnClickListener { timerState.accept(Running) }
+        binding.pauseButton.setOnClickListener { timerState.accept(Paused) }
+        binding.resumeButton.setOnClickListener { timerState.accept(Running) }
+        binding.stopButton.setOnClickListener { timerState.accept(Stopped) }
     }
 
     override fun onStart() {
@@ -60,6 +50,30 @@ class TimerActivity : AppCompatActivity() {
             }
     }
 
+    private fun setRunningViewState() {
+        binding.playButton.hide()
+        binding.resumeStop.hide()
+        binding.actionBarContent.hide()
+
+        binding.pauseButton.show()
+        binding.playPauseLabel.text = getString(R.string.pause_drill)
+    }
+
+    private fun setPausedViewState() {
+        binding.playButton.hide()
+        binding.pauseButton.hide()
+
+        binding.resumeStop.show()
+        binding.actionBarContent.show()
+
+        binding.playPauseLabel.text = getString(R.string.resume_end)
+    }
+
+    private fun setStoppedViewState() {
+
+    }
+
+
     fun startTimer() {
         object : CountDownTimer(5000, 1000L) {
             override fun onFinish() {
@@ -69,26 +83,26 @@ class TimerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val timer = millisUntilFinished.toTimer()
                 if (timer.hour != 0) {
-                    binding.hour.visibility = View.VISIBLE
+                    binding.hour.show()
                     binding.hour.text = timer.hour.toString()
                 } else {
-                    binding.hour.visibility = View.GONE
-                    binding.separator.visibility = View.GONE
+                    binding.hour.hide()
+                    binding.separator.hide()
                 }
 
                 if (timer.minute != 0) {
-                    binding.minutes.visibility = View.VISIBLE
+                    binding.minutes.show()
                     binding.minutes.text = timer.minute.toString()
                 } else {
-                    binding.minutes.visibility = View.GONE
-                    binding.separator2.visibility = View.GONE
+                    binding.minutes.hide()
+                    binding.separator2.hide()
                 }
 
                 if (timer.second != 0) {
-                    binding.seconds.visibility = View.VISIBLE
+                    binding.seconds.show()
                     binding.seconds.text = timer.second.toString()
                 } else {
-                    binding.seconds.visibility = View.GONE
+                    binding.seconds.hide()
                 }
             }
 
