@@ -2,14 +2,14 @@ package com.swolfand.ticktock.ui
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
+import android.os.SystemClock
+import android.text.format.DateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.ReplayRelay
 import com.swolfand.ticktock.R
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
-
 import com.swolfand.ticktock.plusAssign
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -21,6 +21,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTimerBinding
     private val relay: ReplayRelay<Timer> = ReplayRelay.createWithSize(1)
     private val timerState: BehaviorRelay<TimerState> = BehaviorRelay.create()
+    private var countDownTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,9 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
+        binding.chronometer.format = DateFormat.format("kk:mm:ss", 800L).toString()
+        binding.chronometer.base = SystemClock.elapsedRealtime()
+        binding.chronometer.start()
         binding.playButton.setOnClickListener { timerState.accept(Running) }
         binding.pauseButton.setOnClickListener { timerState.accept(Paused) }
         binding.resumeButton.setOnClickListener { timerState.accept(Running) }
@@ -46,7 +50,6 @@ class TimerActivity : AppCompatActivity() {
         super.onStart()
         compositeDisposable += timerViewModel.getActivities()
             .subscribe {
-
             }
     }
 
@@ -57,6 +60,15 @@ class TimerActivity : AppCompatActivity() {
 
         binding.pauseButton.show()
         binding.playPauseLabel.text = getString(R.string.pause_drill)
+
+        if (countDownTimer == null) {
+            createTimer(80000)
+
+        } else {
+            timerViewModel.getTime()?.let {
+                createTimer(it.toMillis())
+            }
+        }
     }
 
     private fun setPausedViewState() {
@@ -67,6 +79,8 @@ class TimerActivity : AppCompatActivity() {
         binding.actionBarContent.show()
 
         binding.playPauseLabel.text = getString(R.string.resume_end)
+
+
     }
 
     private fun setStoppedViewState() {
@@ -74,8 +88,8 @@ class TimerActivity : AppCompatActivity() {
     }
 
 
-    fun startTimer() {
-        object : CountDownTimer(5000, 1000L) {
+    fun createTimer(countDownAmount: Long) {
+        countDownTimer = object : CountDownTimer(countDownAmount, 1000L) {
             override fun onFinish() {
 
             }
