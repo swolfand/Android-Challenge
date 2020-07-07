@@ -5,13 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.swolfand.ticktock.model.Activity
-import io.reactivex.Flowable
+import io.reactivex.rxjava3.core.Flowable
 
 @Dao
 interface ActivityDao {
 
     @Query("SELECT * FROM activity_table ORDER BY `order` ASC")
-    fun getActivity(): Flowable<List<Activity>>
+    fun getActivities(): Flowable<List<Activity>>
 
     @Query("DELETE FROM activity_table")
     fun clear()

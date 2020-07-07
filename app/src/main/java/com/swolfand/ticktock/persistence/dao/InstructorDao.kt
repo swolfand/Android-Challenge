@@ -3,8 +3,8 @@ package com.swolfand.ticktock.persistence.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.swolfand.ticktock.model.Instructor
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface InstructorDao {
