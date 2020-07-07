@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.swolfand.ticktock.model.Activity
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 
 @Dao
 interface ActivityDao {

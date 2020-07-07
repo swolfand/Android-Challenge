@@ -6,12 +6,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.swolfand.ticktock.model.Activity
 import com.swolfand.ticktock.persistence.dao.ActivityDao
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 private const val TIMER_STATE = "timer_state"
+private const val MILLIS_IN_HOUR = 3600000
+private const val MILLIS_IN_MINUTE = 60000
+private const val MILLIS_IN_SECOND = 1000
 
 class TimerViewModel @ViewModelInject constructor(
     private val activityDao: ActivityDao,
@@ -19,7 +23,8 @@ class TimerViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     fun getActivities(): @NonNull Flowable<Map<Int, List<Activity>>> {
-        return activityDao.getActivities()
+
+        return RxJavaBridge.toV3Flowable(activityDao.getActivities())
             .map { it.groupBy { activities -> activities.order } }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -33,3 +38,12 @@ class TimerViewModel @ViewModelInject constructor(
 }
 
 data class Timer(val hour: Int = 0, val minute: Int = 0, val second: Int = 0)
+
+fun Timer.toMillis(): Long =
+    ((this.hour * MILLIS_IN_HOUR) + (this.minute * MILLIS_IN_MINUTE) + (this.second * MILLIS_IN_SECOND)).toLong()
+
+fun Long.toTimer(): Timer = Timer(
+    (this / MILLIS_IN_HOUR).toInt(),
+    (this / MILLIS_IN_MINUTE).toInt(),
+    (this / MILLIS_IN_SECOND).toInt()
+)

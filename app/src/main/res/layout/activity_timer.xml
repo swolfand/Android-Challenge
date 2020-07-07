@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.TimerActivity">
 
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
@@ -64,23 +64,16 @@
         app:layout_constraintTop_toTopOf="@id/background"
         tools:text="Groups Change In" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/timer_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="hour,separator,minutes,separator2, seconds"
-        app:layout_constraintHorizontal_chainStyle="packed" />
-
     <TextView
         android:id="@+id/hour"
         style="@style/TimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/one"
         app:layout_constraintEnd_toStartOf="@id/separator"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer_label"
-        tools:text="1" />
+        app:layout_constraintTop_toBottomOf="@id/timer_label" />
 
     <TextView
         android:id="@+id/separator"
@@ -100,11 +93,11 @@
         style="@style/TimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/zero_zero"
         app:layout_constraintEnd_toStartOf="@id/separator2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/separator"
-        app:layout_constraintTop_toBottomOf="@id/timer_label"
-        tools:text="36" />
+        app:layout_constraintTop_toBottomOf="@id/timer_label" />
 
     <TextView
         android:id="@+id/separator2"
@@ -113,6 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/timer_separator"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/seconds"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/minutes"
@@ -123,11 +117,11 @@
         style="@style/TimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/zero_zero"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/separator2"
-        app:layout_constraintTop_toBottomOf="@id/timer_label"
-        tools:text="45" />
+        app:layout_constraintTop_toBottomOf="@id/timer_label" />
 
     <TextView
         android:id="@+id/current_activity_label"
@@ -205,16 +199,18 @@
         tools:text="Play Drill" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/play_button"
         android:layout_width="@dimen/play_button_width"
         android:layout_height="@dimen/play_button_height"
         android:layout_marginTop="@dimen/spacing_half"
         android:backgroundTint="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
         android:insetLeft="@dimen/zero_inset"
         android:insetTop="@dimen/zero_inset"
         android:insetRight="@dimen/zero_inset"
         android:insetBottom="@dimen/zero_inset"
         android:textColor="@color/white"
-        android:visibility="gone"
         app:cornerRadius="1000dp"
         app:icon="@drawable/ic_play_arrow"
         app:iconGravity="textStart"
@@ -228,6 +224,7 @@
         android:id="@+id/pause_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="pause_button,stop_button" />
 
     <ImageView

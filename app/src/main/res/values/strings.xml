@@ -7,4 +7,6 @@
     <string name="pause">pause</string>
     <string name="activity_paused">Activity Paused</string>
     <string name="stop">stop</string>
+    <string name="zero_zero">00</string>
+    <string name="one">1</string>
 </resources>
