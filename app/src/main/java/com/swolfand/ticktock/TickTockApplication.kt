@@ -1,11 +1,7 @@
 package com.swolfand.ticktock
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class TickTockApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-
-    }
-}
+@HiltAndroidApp
+class TickTockApplication : Application()
