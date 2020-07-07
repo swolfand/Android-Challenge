@@ -6,4 +6,5 @@
     <string name="groups_change_in">Groups Change In</string>
     <string name="pause">pause</string>
     <string name="activity_paused">Activity Paused</string>
+    <string name="stop">stop</string>
 </resources>

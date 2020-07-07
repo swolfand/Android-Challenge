@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="action_bar, action_text" />
+
     <View
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
@@ -199,20 +205,20 @@
         tools:text="Play Drill" />
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="175dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="@dimen/play_button_width"
+        android:layout_height="@dimen/play_button_height"
+        android:layout_marginTop="@dimen/spacing_half"
         android:backgroundTint="@color/colorPrimary"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
+        android:insetLeft="@dimen/zero_inset"
+        android:insetTop="@dimen/zero_inset"
+        android:insetRight="@dimen/zero_inset"
+        android:insetBottom="@dimen/zero_inset"
         android:textColor="@color/white"
         android:visibility="gone"
         app:cornerRadius="1000dp"
         app:icon="@drawable/ic_play_arrow"
         app:iconGravity="textStart"
-        app:iconPadding="0dp"
+        app:iconPadding="@dimen/zero_inset"
         app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -226,10 +232,13 @@
 
     <ImageView
         android:id="@+id/pause_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="@dimen/circular_button_radius"
+        android:layout_height="@dimen/circular_button_radius"
+        android:layout_marginEnd="@dimen/spacing_standard"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:contentDescription="@string/pause"
+        android:focusable="true"
         android:src="@drawable/ic_pause_circle"
         android:tint="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@id/stop_button"
@@ -239,9 +248,13 @@
 
     <ImageView
         android:id="@+id/stop_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/circular_button_radius"
+        android:layout_height="@dimen/circular_button_radius"
+        android:layout_marginTop="@dimen/spacing_standard"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/stop"
+        android:focusable="true"
         android:src="@drawable/ic_stop_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pause_button"
