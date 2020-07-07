@@ -56,50 +56,5 @@
       "materialId": 105,
       "durationSeconds": 30
     }
-  ],
-  "materials": [
-    {
-      "id": 128,
-      "name": "Robocops"
-    },
-    {
-      "id": 103,
-      "name": "Stretch"
-    },
-    {
-      "id": 105,
-      "name": "Kicks"
-    },
-    {
-      "id": 115,
-      "name": "Flying Changes",
-      
-    },
-    {
-      "id": 39,
-      "name": "Follow The Ball",
-      
-    },
-    {
-      "id": 101,
-      "name": "Water Time"
-    },
-    {
-      "id": 38,
-      "name": "Tag Me",
-      
-    }
-  ],
-  "instructors": [
-    {
-      "givenName": "Jackie",
-      "id": 1,
-      "familyName": "Robinson",
-    },
-    {
-      "givenName": "Babe",
-      "id": 96,
-      "familyName": "Ruth",
-    }
   ]
 }
