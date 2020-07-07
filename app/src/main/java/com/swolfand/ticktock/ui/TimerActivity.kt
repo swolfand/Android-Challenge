@@ -5,6 +5,7 @@ import android.os.CountDownTimer
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.ReplayRelay
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
 
@@ -18,6 +19,7 @@ class TimerActivity : AppCompatActivity() {
     private val compositeDisposable = CompositeDisposable()
     private lateinit var binding: ActivityTimerBinding
     private val relay: ReplayRelay<Timer> = ReplayRelay.createWithSize(1)
+    private val timerState: BehaviorRelay<TimerState> = BehaviorRelay.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,26 @@ class TimerActivity : AppCompatActivity() {
         binding.playButton.setOnClickListener {
             startTimer()
         }
+
+        timerState.subscribe {
+            when (it) {
+                Running -> setRunningViewState()
+                Stopped -> setStoppedViewState()
+                Paused -> setPausedViewState()
+            }
+        }
+    }
+
+    private fun setPausedViewState() {
+
+    }
+
+    private fun setStoppedViewState() {
+// TODO
+    }
+
+    private fun setRunningViewState() {
+// TODO
     }
 
     override fun onStart() {
@@ -73,3 +95,8 @@ class TimerActivity : AppCompatActivity() {
         }.start()
     }
 }
+
+sealed class TimerState
+object Running : TimerState()
+object Stopped : TimerState()
+object Paused : TimerState()
