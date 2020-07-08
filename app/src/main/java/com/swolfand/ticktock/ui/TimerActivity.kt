@@ -72,6 +72,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun setPausedViewState() {
+        countDownTimer?.cancel()
         binding.playButton.hide()
         binding.pauseButton.hide()
 
@@ -121,6 +122,14 @@ class TimerActivity : AppCompatActivity() {
             }
 
         }.start()
+    }
+
+    fun currentTime(): Timer {
+        val hour = if(binding.hour.text.isNullOrEmpty()) 0 else binding.hour.toInt()
+        val min = if(binding.minutes.text.isNullOrEmpty()) 0 else binding.minutes.toInt()
+        val seconds = if(binding.seconds.text.isNullOrEmpty()) 0 else binding.seconds.toInt()
+
+        return Timer(hour,min,seconds)
     }
 }
 
