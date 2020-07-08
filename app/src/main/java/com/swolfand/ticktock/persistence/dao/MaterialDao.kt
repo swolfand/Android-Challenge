@@ -13,7 +13,7 @@ interface MaterialDao {
     fun getMaterials(): Flowable<List<Material>>
 
     @Query("SELECT * FROM material_table WHERE id = :id")
-    fun getMaterial(id: Int): Single<Material>
+    fun getMaterial(id: Int): Flowable<Material>
 
     @Query("DELETE FROM material_table")
     fun clear()

@@ -13,7 +13,7 @@ interface InstructorDao {
     fun getInstructors(): Flowable<List<Instructor>>
 
     @Query("SELECT * FROM instructor_table WHERE id = :id")
-    fun getInstructor(id: Int): Single<Instructor>
+    fun getInstructor(id: Int): Flowable<Instructor>
 
     @Query("DELETE FROM instructor_table")
     fun clear()
