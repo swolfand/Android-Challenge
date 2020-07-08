@@ -37,9 +37,6 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
-        binding.chronometer.format = DateFormat.format("kk:mm:ss", 800L).toString()
-        binding.chronometer.base = SystemClock.elapsedRealtime()
-        binding.chronometer.start()
         binding.playButton.setOnClickListener { timerState.accept(Running) }
         binding.pauseButton.setOnClickListener { timerState.accept(Paused) }
         binding.resumeButton.setOnClickListener { timerState.accept(Running) }
@@ -81,7 +78,7 @@ class TimerActivity : AppCompatActivity() {
 
         binding.playPauseLabel.text = getString(R.string.resume_end)
 
-
+        timerViewModel.saveTimer(currentTime())
     }
 
     private fun setStoppedViewState() {

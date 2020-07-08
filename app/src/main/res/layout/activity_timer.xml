@@ -258,7 +258,8 @@
         app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label"
+        tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pause_button"
@@ -284,42 +285,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/play_pause_label"
         app:strokeColor="@color/colorPrimary"
-        app:strokeWidth="4dp" />
+        app:strokeWidth="4dp"
+        tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/resume_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:constraint_referenced_ids="resume_button, stop_button" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/resume_button"
-        android:layout_width="@dimen/circular_button_radius"
-        android:layout_height="@dimen/circular_button_radius"
-        android:layout_marginEnd="@dimen/spacing_standard"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/transparent"
         android:clickable="true"
         android:contentDescription="@string/resume"
         android:focusable="true"
-        android:src="@drawable/ic_pause_circle"
-        android:tint="@color/colorPrimary"
+        android:foreground="@drawable/fab"
+        android:src="@drawable/ic_play_arrow"
+        app:elevation="0dp"
+        app:fabCustomSize="70dp"
         app:layout_constraintEnd_toStartOf="@id/stop_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label"
+        app:maxImageSize="40dp"
+        app:tint="@color/colorPrimary" />
 
-    <ImageView
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/stop_button"
-        android:layout_width="@dimen/circular_button_radius"
-        android:layout_height="@dimen/circular_button_radius"
-        android:layout_marginTop="@dimen/spacing_standard"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/spacing_standard"
+        android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
-        android:contentDescription="@string/stop"
+        android:contentDescription="@string/resume"
         android:focusable="true"
-        android:src="@drawable/ic_stop_circle"
+        android:src="@drawable/ic_stop"
+        app:elevation="0dp"
+        app:fabCustomSize="70dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/resume_button"
-        app:layout_constraintTop_toBottomOf="@id/play_pause_label" />
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label"
+        app:maxImageSize="40dp"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
