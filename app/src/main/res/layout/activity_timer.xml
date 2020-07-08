@@ -7,37 +7,29 @@
     android:orientation="vertical"
     tools:context=".ui.TimerActivity">
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/action_bar_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="action_bar, action_text" />
-
-    <View
-        android:id="@+id/action_bar"
+    <com.swolfand.ticktock.widgets.ExpandableLayout
+        android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/highlighter"
-        android:visibility="gone"
+        app:expanded="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:expanded="true">
 
-    <TextView
-        android:id="@+id/action_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/open_sans_semibold"
-        android:text="@string/activity_paused"
-        android:textAllCaps="true"
-        android:textColor="@color/raspberry"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/action_bar"
-        app:layout_constraintEnd_toEndOf="@id/action_bar"
-        app:layout_constraintStart_toStartOf="@id/action_bar"
-        app:layout_constraintTop_toTopOf="@id/action_bar" />
+        <TextView
+            android:id="@+id/action_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/open_sans_semibold"
+            android:text="@string/activity_paused"
+            android:textAllCaps="true"
+            android:textColor="@color/raspberry"
+            android:textSize="16sp" />
+
+    </com.swolfand.ticktock.widgets.ExpandableLayout>
 
     <View
         android:id="@+id/background"
@@ -46,7 +38,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/action_bar" />
+        app:layout_constraintTop_toBottomOf="@id/banner" />
 
     <TextView
         android:id="@+id/timer_label"
