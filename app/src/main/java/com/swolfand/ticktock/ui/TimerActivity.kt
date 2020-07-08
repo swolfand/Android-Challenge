@@ -2,8 +2,6 @@ package com.swolfand.ticktock.ui
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SystemClock
-import android.text.format.DateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxrelay3.BehaviorRelay
@@ -22,10 +20,12 @@ class TimerActivity : AppCompatActivity() {
     private val relay: ReplayRelay<Timer> = ReplayRelay.createWithSize(1)
     private val timerState: BehaviorRelay<TimerState> = BehaviorRelay.create()
     private var countDownTimer: CountDownTimer? = null
+    private lateinit var timerDelegate: TimerDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
+        timerDelegate = TimerDelegate(binding)
         val view = binding.root
         setContentView(view)
 
@@ -53,18 +53,15 @@ class TimerActivity : AppCompatActivity() {
     private fun setRunningViewState() {
         binding.playButton.hide()
         binding.resumeStop.hide()
-        binding.actionBarContent.hide()
+        binding.banner.collapse()
 
         binding.pauseButton.show()
         binding.playPauseLabel.text = getString(R.string.pause_drill)
 
         if (countDownTimer == null) {
-            createTimer(80000)
-
+            countDownTimer = timerDelegate.createTimer(80000)
         } else {
-            timerViewModel.getTime()?.let {
-                createTimer(it.toMillis())
-            }
+            countDownTimer?.start()
         }
     }
 
@@ -74,60 +71,17 @@ class TimerActivity : AppCompatActivity() {
         binding.pauseButton.hide()
 
         binding.resumeStop.show()
-        binding.actionBarContent.show()
+        binding.banner.expand()
 
         binding.playPauseLabel.text = getString(R.string.resume_end)
 
-        timerViewModel.saveTimer(currentTime())
+        timerViewModel.saveTimer(timerDelegate.currentTime())
     }
 
     private fun setStoppedViewState() {
 
     }
 
-
-    fun createTimer(countDownAmount: Long) {
-        countDownTimer = object : CountDownTimer(countDownAmount, 1000L) {
-            override fun onFinish() {
-
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                val timer = millisUntilFinished.toTimer()
-                if (timer.hour != 0) {
-                    binding.hour.show()
-                    binding.hour.text = timer.hour.toString()
-                } else {
-                    binding.hour.hide()
-                    binding.separator.hide()
-                }
-
-                if (timer.minute != 0) {
-                    binding.minutes.show()
-                    binding.minutes.text = timer.minute.toString()
-                } else {
-                    binding.minutes.hide()
-                    binding.separator2.hide()
-                }
-
-                if (timer.second != 0) {
-                    binding.seconds.show()
-                    binding.seconds.text = timer.second.toString()
-                } else {
-                    binding.seconds.hide()
-                }
-            }
-
-        }.start()
-    }
-
-    fun currentTime(): Timer {
-        val hour = if(binding.hour.text.isNullOrEmpty()) 0 else binding.hour.toInt()
-        val min = if(binding.minutes.text.isNullOrEmpty()) 0 else binding.minutes.toInt()
-        val seconds = if(binding.seconds.text.isNullOrEmpty()) 0 else binding.seconds.toInt()
-
-        return Timer(hour,min,seconds)
-    }
 }
 
 sealed class TimerState
