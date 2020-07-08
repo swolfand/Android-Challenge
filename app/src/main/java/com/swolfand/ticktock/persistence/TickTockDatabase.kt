@@ -16,7 +16,7 @@ import com.swolfand.ticktock.persistence.dao.MaterialDao
         Activity::class,
         Instructor::class,
         Material::class
-    ], version = 1
+    ], version = 2
 )
 abstract class TickTockDatabase : RoomDatabase() {
 
@@ -38,8 +38,9 @@ abstract class TickTockDatabase : RoomDatabase() {
                     TickTockDatabase::class.java,
                     "ticktock.db"
                 )
-                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                 .fallbackToDestructiveMigrationOnDowngrade()
+                .fallbackToDestructiveMigration()
                 .build()
                 .also { INSTANCE = it }
         }

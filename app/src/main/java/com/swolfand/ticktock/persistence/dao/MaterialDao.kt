@@ -1,6 +1,8 @@
 package com.swolfand.ticktock.persistence.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.swolfand.ticktock.model.Material
 import io.reactivex.Flowable
@@ -14,6 +16,9 @@ interface MaterialDao {
 
     @Query("SELECT * FROM material_table WHERE id = :id")
     fun getMaterial(id: Int): Flowable<Material>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(materials: List<Material>)
 
     @Query("DELETE FROM material_table")
     fun clear()

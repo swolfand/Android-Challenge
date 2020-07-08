@@ -5,14 +5,12 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.swolfand.ticktock.model.Activity
 import com.swolfand.ticktock.persistence.dao.ActivityDao
 import com.swolfand.ticktock.persistence.dao.InstructorDao
 import com.swolfand.ticktock.persistence.dao.MaterialDao
 import hu.akarnokd.rxjava3.bridge.RxJavaBridge
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
@@ -38,7 +36,7 @@ class TimerViewModel @ViewModelInject constructor(
         get() = savedStateHandle.get(TIMER_STATE)
         set(value) = savedStateHandle.set(TIMER_STATE, value)
 
-    fun getActivities(): @NonNull Single<Map<Int, List<TimerUiModel>>>? {
+    fun getActivities(): @NonNull Single<Map<Int, List<TimerUiModel>>> {
         return RxJavaBridge.toV3Flowable(activityDao.getActivities())
             .flatMapIterable { it }
             .flatMap {
@@ -46,7 +44,7 @@ class TimerViewModel @ViewModelInject constructor(
                     TimerUiModel(
                         durationSeconds = it.durationSeconds,
                         order = it.order,
-                        materialName = material.name,
+                        activityName = material.name,
                         instructorId = it.instructorId
                     )
                 }
@@ -70,7 +68,7 @@ data class TimerUiModel(
     val durationSeconds: Int = -1,
     val order: Int = -1,
     val instructorName: String = "",
-    val materialName: String = "",
+    val activityName: String = "",
     val instructorId: Int = -1
 )
 

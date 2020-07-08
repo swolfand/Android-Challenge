@@ -13,6 +13,7 @@ import com.swolfand.ticktock.model.Activity
 import com.swolfand.ticktock.plusAssign
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TimerActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class TimerActivity : AppCompatActivity() {
     private var countDownTimer: CountDownTimer? = null
     private lateinit var timerDelegate: TimerDelegate
     private lateinit var itemActivityBinding: ItemActivityBinding
-    private lateinit var activityMap: MutableMap<Int, List<Activity>>
+    private lateinit var activityMap: MutableMap<Int, List<TimerUiModel>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,21 +52,25 @@ class TimerActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         compositeDisposable += timerViewModel.getActivities()
-            .subscribe {
-                activityMap = it.toMutableMap()
+            .subscribe({ map ->
+                activityMap = map.toMutableMap()
                 activityMap.entries.forEachIndexed { index, entry ->
                     if (index == 0) {
                         entry.value.forEach {
-                            val view = layoutInflater.inflate(R.layout.item_activity, binding.currentActivityContainer)
+                            val view = layoutInflater.inflate(
+                                R.layout.item_activity,
+                                binding.currentActivityContainer
+                            )
                             itemActivityBinding = ItemActivityBinding.bind(view)
-                            itemActivityBinding.activityPlayer = it.
-                            binding.currentActivityContainer.addView()
+                            itemActivityBinding.activityPlayer.text = it.instructorName
+                            itemActivityBinding.activityTitle.text = it.activityName
+                            binding.currentActivityContainer.addView(view)
                         }
                     } else if (index == 1) {
 
                     }
                 }
-            }
+            }, { throwable -> Timber.e(throwable) })
     }
 
     private fun setRunningViewState() {
