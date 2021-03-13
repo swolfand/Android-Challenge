@@ -127,35 +127,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/background" />
 
-    <HorizontalScrollView
-        android:id="@+id/current_activity_scroll"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/current_activity_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_label">
-
-        <LinearLayout
-            android:id="@+id/current_activity_container"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:orientation="horizontal"
-            tools:listitem="@layout/item_activity">
-
-            <!-- Uncomment to preview in editor -->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
+        app:layout_constraintTop_toBottomOf="@id/current_activity_label"/>
 
     <View
         android:id="@+id/activity_separator_1"
@@ -164,7 +143,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/current_activity_recycler" />
 
     <TextView
         android:id="@+id/next_activity_label"
@@ -177,8 +156,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_separator_1" />
 
-    <HorizontalScrollView
-        android:id="@+id/next_activity_scroll"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/next_activity_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -188,27 +167,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/next_activity_label"
-        tools:listitem="@layout/item_activity">
-
-
-        <LinearLayout
-            android:id="@+id/next_activity_container"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            tools:listitem="@layout/item_activity">
-
-            <!-- Uncomment to preview in editor -->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-            <!-- <include layout="@layout/item_activity" />-->
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
+        tools:listitem="@layout/item_activity"/>
 
     <View
         android:id="@+id/activity_separator_2"
@@ -216,7 +175,7 @@
         android:layout_width="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/next_activity_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/next_activity_recycler" />
 
     <TextView
         android:id="@+id/play_pause_label"

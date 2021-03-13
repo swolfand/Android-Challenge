@@ -1,7 +1,6 @@
 package com.swolfand.ticktock.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.swolfand.ticktock.CountDownTimer
@@ -17,23 +16,29 @@ import io.reactivex.subjects.PublishSubject
 class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     private val timerViewModel: TimerViewModel by viewModels()
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var binding: ActivityTimerBinding
-
     private val timerState: PublishSubject<TimerState> = PublishSubject.create()
+
     private var countDownTimer: CountDownTimer? = null
-    private lateinit var timerDelegate: TimerDelegate
+    private var currentOrder: Int = 0
+
+    private lateinit var timerHelper: TimerHelper
+    private lateinit var binding: ActivityTimerBinding
+    private lateinit var currentActivities: Map<Int, List<TimerUiModel>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
-        timerDelegate = TimerDelegate(binding)
         setContentView(binding.root)
+
+        timerHelper = TimerHelper(binding, this)
 
         compositeDisposable += timerViewModel
             .relay
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+                currentActivities = it
+                currentOrder = it.keys.first()
+                onOrderChanged(currentOrder)
             }
 
         compositeDisposable += timerState.subscribe {
@@ -52,6 +57,10 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         timerViewModel.getActivities()
     }
 
+    private fun onOrderChanged(currentOrder: Int) {
+
+    }
+
     private fun setRunningViewState() {
         binding.playButton.hide()
         binding.resumeStop.hide()
@@ -61,7 +70,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.playPauseLabel.text = getString(R.string.pause_drill)
 
         if (countDownTimer == null) {
-            countDownTimer = timerDelegate.createTimer(80000)
+            countDownTimer = timerHelper.createTimer(80000)
             countDownTimer?.start()
         } else {
             countDownTimer?.resume()
@@ -78,7 +87,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 
         binding.playPauseLabel.text = getString(R.string.resume_end)
 
-        timerViewModel.timer = timerDelegate.currentTime()
+        timerViewModel.timer = timerHelper.currentTime()
     }
 
     private fun setStoppedViewState() {

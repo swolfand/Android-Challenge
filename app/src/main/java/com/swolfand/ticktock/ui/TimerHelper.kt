@@ -3,12 +3,15 @@ package com.swolfand.ticktock.ui
 import com.swolfand.ticktock.CountDownTimer
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
 
-class TimerDelegate(val binding: ActivityTimerBinding, listener: OnActivityFinishListener) {
+class TimerHelper(
+    private val binding: ActivityTimerBinding,
+    private val listener: OnActivityFinishedListener?
+) {
 
     fun createTimer(countDownAmount: Long): CountDownTimer {
         return object : CountDownTimer(countDownAmount, 1000L) {
             override fun onFinish() {
-
+                listener?.onActivityFinished()
             }
 
             override fun onTick(millisUntilFinished: Long) {
