@@ -91,7 +91,11 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     }
 
     private fun setStoppedViewState() {
-
+        binding.endButton.show()
+        binding.playButton.hide()
+        binding.pauseButton.hide()
+        binding.resumeStop.hide()
+        binding.playPauseLabel.hide()
     }
 
     override fun onActivityFinished() {

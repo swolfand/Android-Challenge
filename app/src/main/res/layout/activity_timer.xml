@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     tools:context=".ui.TimerActivity">
 
@@ -134,7 +135,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_activity_label"/>
+        app:layout_constraintTop_toBottomOf="@id/current_activity_label" />
 
     <View
         android:id="@+id/activity_separator_1"
@@ -167,7 +168,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/next_activity_label"
-        tools:listitem="@layout/item_activity"/>
+        tools:listitem="@layout/item_activity" />
 
     <View
         android:id="@+id/activity_separator_2"
@@ -239,6 +240,29 @@
         app:strokeWidth="4dp"
         tools:visibility="gone" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/end_button"
+        android:layout_width="@dimen/play_button_width"
+        android:layout_height="@dimen/play_button_height"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:insetLeft="@dimen/zero_inset"
+        android:insetTop="@dimen/zero_inset"
+        android:insetRight="@dimen/zero_inset"
+        android:insetBottom="@dimen/zero_inset"
+        android:text="@string/end_practice"
+        android:textColor="@color/purple_500"
+        android:visibility="gone"
+        app:cornerRadius="1000dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/play_pause_label"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="4dp"
+        tools:visibility="visible" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/resume_stop"
         android:layout_width="match_parent"
@@ -250,8 +274,8 @@
         android:id="@+id/resume_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
         android:backgroundTint="@color/transparent"
         android:clickable="true"
         android:contentDescription="@string/resume"
@@ -259,13 +283,13 @@
         android:src="@drawable/ic_play_arrow"
         app:backgroundTint="@color/colorPrimary"
         app:borderWidth="6dp"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
+        app:elevation="@dimen/zero"
+        app:fabCustomSize="@dimen/playPauseCustomSize"
         app:layout_constraintEnd_toStartOf="@id/stop_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/play_pause_label"
-        app:maxImageSize="40dp"
+        app:maxImageSize="@dimen/maxImageSize"
         app:tint="@color/colorPrimary" />
 
 
@@ -273,21 +297,21 @@
         android:id="@+id/stop_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_xlarge"
         android:layout_marginEnd="@dimen/spacing_standard"
         android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:contentDescription="@string/resume"
         android:focusable="true"
         android:src="@drawable/ic_stop"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:fabCustomSize="70dp"
+        app:borderWidth="@dimen/zero"
+        app:elevation="@dimen/zero"
+        app:fabCustomSize="@dimen/playPauseCustomSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/resume_button"
         app:layout_constraintTop_toBottomOf="@id/play_pause_label"
-        app:maxImageSize="40dp"
+        app:maxImageSize="@dimen/maxImageSize"
         app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
