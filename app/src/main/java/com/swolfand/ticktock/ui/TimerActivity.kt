@@ -3,6 +3,7 @@ package com.swolfand.ticktock.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.swolfand.ticktock.CountDownTimer
 import com.swolfand.ticktock.R
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
@@ -34,10 +35,11 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 
         compositeDisposable += timerViewModel
             .relay
+            .take(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 currentActivities = it
-                currentOrder = it.keys.first()
+                currentOrder = it.keys.minOrNull()!!
                 onOrderChanged(currentOrder)
             }
 
@@ -58,7 +60,16 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     }
 
     private fun onOrderChanged(currentOrder: Int) {
+        binding.currentActivityRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.currentActivityRecycler.adapter = ActivityAdapter(currentActivities[currentOrder]!!)
 
+        binding.nextActivityRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        if (currentActivities[currentOrder + 1] != null) {
+            binding.nextActivityRecycler.adapter =
+                ActivityAdapter(currentActivities[currentOrder + 1]!!)
+        }
     }
 
     private fun setRunningViewState() {

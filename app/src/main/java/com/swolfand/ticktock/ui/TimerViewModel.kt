@@ -60,7 +60,7 @@ class TimerViewModel @ViewModelInject constructor(
                 }
             }
             .toList()
-            .map { it.groupBy { model -> model.order } }
+            .map { it.groupBy { model -> model.order }.toSortedMap() }
             .subscribe({
                 relay.onNext(it)
             }, { Timber.e(it) })
