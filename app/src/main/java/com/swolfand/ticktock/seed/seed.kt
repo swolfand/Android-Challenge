@@ -63,12 +63,12 @@ val activities = listOf<Activity>(
     )
 )
 
-val instructors = listOf<Instructor>(
-    Instructor(id = 1, givenName = "Jackie", familyName = "Robinson"),
-    Instructor(id = 96, givenName = "Babe", familyName = "Ruth")
+val instructors = listOf(
+    Instructor(id = 1, firstName = "Jackie", lastName = "Robinson"),
+    Instructor(id = 96, firstName = "Babe", lastName = "Ruth")
 )
 
-val materials = listOf<Material>(
+val materials = listOf(
     Material(id = 128, name = "Robocops"),
     Material(id = 103, name = "Stretch"),
     Material(id = 105, name = "Kicks"),

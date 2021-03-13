@@ -9,4 +9,4 @@ data class Instructors(val instructors: List<Instructor>)
 
 @JsonClass(generateAdapter = true)
 @Entity(tableName = "instructor_table")
-data class Instructor(@PrimaryKey val id: Int = -1, val givenName: String, val familyName: String)
+data class Instructor(@PrimaryKey val id: Int = -1, val firstName: String, val lastName: String)

@@ -1,9 +1,9 @@
 package com.swolfand.ticktock.ui
 
-import android.os.CountDownTimer
+import com.swolfand.ticktock.CountDownTimer
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
 
-class TimerDelegate(val binding: ActivityTimerBinding) {
+class TimerDelegate(val binding: ActivityTimerBinding, listener: OnActivityFinishListener) {
 
     fun createTimer(countDownAmount: Long): CountDownTimer {
         return object : CountDownTimer(countDownAmount, 1000L) {
