@@ -8,12 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.swolfand.ticktock.persistence.dao.ActivityDao
 import com.swolfand.ticktock.persistence.dao.InstructorDao
 import com.swolfand.ticktock.persistence.dao.MaterialDao
-import hu.akarnokd.rxjava3.bridge.RxJavaBridge
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.android.parcel.Parcelize
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.parcelize.Parcelize
 
 private const val TIMER_STATE = "timer_state"
 private const val CURRENT_ORDER = "current_order"
@@ -28,16 +26,12 @@ class TimerViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var currentOrder: Int?
-        get() = savedStateHandle.get<Int>(CURRENT_ORDER)
-        set(value) = savedStateHandle.set(CURRENT_ORDER, value)
-
     var timer: Timer?
         get() = savedStateHandle.get(TIMER_STATE)
         set(value) = savedStateHandle.set(TIMER_STATE, value)
 
-    fun getActivities(): @NonNull Single<Map<Int, List<TimerUiModel>>> {
-        return RxJavaBridge.toV3Flowable(activityDao.getActivities())
+    fun getActivities(): Single<Map<Int, List<TimerUiModel>>> {
+        return activityDao.getActivities()
             .flatMapIterable { it }
             .flatMap {
                 materialDao.getMaterial(it.materialId).map { material ->

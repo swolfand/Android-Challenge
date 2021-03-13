@@ -16,6 +16,7 @@ object deps {
             const val coreKtx = "androidx.core:core-ktx:1.3.2"
             const val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
             const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:2.3.1"
+            const val constraint = "androidx.constraintlayout:constraintlayout:2.0.4"
 
             object lifecycle {
                 const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"

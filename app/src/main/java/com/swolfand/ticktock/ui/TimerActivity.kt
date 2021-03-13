@@ -4,15 +4,13 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.jakewharton.rxrelay3.BehaviorRelay
-import com.jakewharton.rxrelay3.ReplayRelay
 import com.swolfand.ticktock.R
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
 import com.swolfand.ticktock.databinding.ItemActivityBinding
-import com.swolfand.ticktock.model.Activity
 import com.swolfand.ticktock.plusAssign
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -20,8 +18,8 @@ class TimerActivity : AppCompatActivity() {
     private val timerViewModel: TimerViewModel by viewModels()
     private val compositeDisposable = CompositeDisposable()
     private lateinit var binding: ActivityTimerBinding
-    private val relay: ReplayRelay<Timer> = ReplayRelay.createWithSize(1)
-    private val timerState: BehaviorRelay<TimerState> = BehaviorRelay.create()
+    private val relay: PublishSubject<Timer> = PublishSubject.create()
+    private val timerState: PublishSubject<TimerState> = PublishSubject.create()
     private var countDownTimer: CountDownTimer? = null
     private lateinit var timerDelegate: TimerDelegate
     private lateinit var itemActivityBinding: ItemActivityBinding
@@ -43,10 +41,10 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
-        binding.playButton.setOnClickListener { timerState.accept(Running) }
-        binding.pauseButton.setOnClickListener { timerState.accept(Paused) }
-        binding.resumeButton.setOnClickListener { timerState.accept(Running) }
-        binding.stopButton.setOnClickListener { timerState.accept(Stopped) }
+        binding.playButton.setOnClickListener { timerState.onNext(Running) }
+        binding.pauseButton.setOnClickListener { timerState.onNext(Paused) }
+        binding.resumeButton.setOnClickListener { timerState.onNext(Running) }
+        binding.stopButton.setOnClickListener { timerState.onNext(Stopped) }
     }
 
     override fun onStart() {
@@ -70,7 +68,7 @@ class TimerActivity : AppCompatActivity() {
 
                     }
                 }
-            }, { throwable -> Timber.e(throwable) })
+            }, { })
     }
 
     private fun setRunningViewState() {
