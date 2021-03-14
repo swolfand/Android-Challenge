@@ -13,4 +13,6 @@
     <string name="pause_drill">Pause Drill</string>
     <string name="resume_end">Resume/End Drill</string>
     <string name="end_practice">END PRACTICE</string>
+    <string name="play_drill">Play Drill</string>
+    <string name="zeros">00</string>
 </resources>

@@ -36,6 +36,12 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding = ActivityTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.currentActivityRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.nextActivityRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
         timerHelper = TimerHelper(binding, this)
 
         compositeDisposable += timerViewModel
@@ -44,7 +50,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             .subscribe {
                 currentActivities = it
                 currentOrder = it.keys.minOrNull()!!
-                onOrderChanged(currentOrder)
+                onOrderChanged()
             }
 
         compositeDisposable += timerState.subscribe({
@@ -60,7 +66,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.resumeButton.setOnClickListener { timerState.onNext(Running) }
         binding.stopButton.setOnClickListener { timerState.onNext(Stopped) }
 
-        timerViewModel.getActivities()
+        setInitialTime()
     }
 
     override fun onDestroy() {
@@ -71,25 +77,29 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     //endregion
 
     override fun onActivityFinished() {
+        countDownTimer?.cancel()
+        countDownTimer = null
         if (hasNextActivity) {
-            countDownTimer = null
-            binding.seconds.text = currentModel.durationSeconds.toString()
-            binding.millis.text = "00"
-            countDownTimer = timerHelper.createTimer(currentModel.durationSeconds.toLong())
             currentOrder += 1
+            binding.seconds.text = currentModel.durationSeconds.toString()
+            binding.millis.text = getString(R.string.zeros)
             onOrderChanged()
+            resetState()
         } else {
             setStoppedViewState()
         }
     }
 
+    private fun setInitialTime() {
+        binding.playPauseLabel.text = getString(R.string.play_drill)
+        binding.seconds.text = currentModel.durationSeconds.toString()
+        binding.millis.text = getString(R.string.zero_zero)
+    }
+
+
     private fun onOrderChanged() {
-        binding.currentActivityRecycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.currentActivityRecycler.adapter = ActivityAdapter(currentActivities[currentOrder]!!)
 
-        binding.nextActivityRecycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (hasNextActivity) {
             binding.nextActivityRecycler.adapter =
                 currentActivities[currentOrder + 1]?.let { ActivityAdapter(it) }
@@ -133,6 +143,14 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.pauseButton.hide()
         binding.resumeStop.hide()
         binding.playPauseLabel.hide()
+    }
+
+    private fun resetState() {
+        binding.endButton.hide()
+        binding.pauseButton.hide()
+        binding.stopButton.hide()
+        binding.playButton.show()
+        binding.playPauseLabel.text = getText(R.string.play_drill)
     }
 
     //endregion
