@@ -27,6 +27,9 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     private lateinit var binding: ActivityTimerBinding
     private lateinit var currentActivities: Map<Int, List<TimerUiModel>>
 
+    private val hasNextActivity: Boolean by lazy { currentActivities[currentOrder + 1] != null }
+    private val currentModel: TimerUiModel by lazy { currentActivities[currentOrder]?.first()!! }
+
     //region lifecycle callbacks
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,17 +70,20 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 
     //endregion
 
-    private val hasNextActivity: Boolean = currentActivities[currentOrder + 1] != null
-
     override fun onActivityFinished() {
         if (hasNextActivity) {
-            onOrderChanged(currentOrder + 1)
+            countDownTimer = null
+            binding.seconds.text = currentModel.durationSeconds.toString()
+            binding.millis.text = "00"
+            countDownTimer = timerHelper.createTimer(currentModel.durationSeconds.toLong())
+            currentOrder += 1
+            onOrderChanged()
         } else {
             setStoppedViewState()
         }
     }
 
-    private fun onOrderChanged(currentOrder: Int) {
+    private fun onOrderChanged() {
         binding.currentActivityRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.currentActivityRecycler.adapter = ActivityAdapter(currentActivities[currentOrder]!!)

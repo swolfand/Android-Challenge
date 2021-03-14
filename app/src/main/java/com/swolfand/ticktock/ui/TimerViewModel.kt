@@ -26,10 +26,6 @@ class TimerViewModel @ViewModelInject constructor(
     private val compositeDisposable = CompositeDisposable()
     val relay: PublishSubject<Map<Int, List<TimerUiModel>>> = PublishSubject.create()
 
-    var timer: Timer?
-        get() = savedStateHandle.get(TIMER_STATE)
-        set(value) = savedStateHandle.set(TIMER_STATE, value)
-
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
