@@ -59,38 +59,14 @@
         tools:text="Groups Change In" />
 
     <TextView
-        android:id="@+id/hour"
-        style="@style/TimerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/zero_zero"
-        app:layout_constraintEnd_toStartOf="@id/separator"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer_label" />
-
-    <TextView
-        android:id="@+id/separator"
-        style="@style/TimerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="@font/open_sans_extrabold"
-        android:text="@string/timer_separator"
-        app:layout_constraintEnd_toStartOf="@id/minutes"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/hour"
-        app:layout_constraintTop_toBottomOf="@id/timer_label" />
-
-    <TextView
-        android:id="@+id/minutes"
+        android:id="@+id/seconds"
         style="@style/TimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/zero_zero"
         app:layout_constraintEnd_toStartOf="@id/separator2"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/separator"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer_label" />
 
     <TextView
@@ -101,13 +77,13 @@
         android:layout_gravity="center"
         android:text="@string/timer_separator"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@id/seconds"
+        app:layout_constraintEnd_toStartOf="@id/millis"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/minutes"
+        app:layout_constraintStart_toEndOf="@id/seconds"
         app:layout_constraintTop_toBottomOf="@id/timer_label" />
 
     <TextView
-        android:id="@+id/seconds"
+        android:id="@+id/millis"
         style="@style/TimerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

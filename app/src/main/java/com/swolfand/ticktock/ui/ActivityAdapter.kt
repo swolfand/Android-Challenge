@@ -26,11 +26,6 @@ class ActivityAdapter(items: List<TimerUiModel>) : RecyclerView.Adapter<Activity
     }
 
     override fun getItemCount(): Int = currentItems.size
-
-    fun clear() {
-        currentItems = emptyList()
-        notifyDataSetChanged()
-    }
 }
 
 class ActivityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

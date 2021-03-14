@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
@@ -26,6 +27,9 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     private lateinit var binding: ActivityTimerBinding
     private lateinit var currentActivities: Map<Int, List<TimerUiModel>>
 
+    private val hasNextActivity: Boolean = currentActivities[currentOrder + 1] != null
+
+    //region lifecycle callbacks
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
@@ -35,7 +39,6 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 
         compositeDisposable += timerViewModel
             .relay
-            .take(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 currentActivities = it
@@ -43,13 +46,13 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
                 onOrderChanged(currentOrder)
             }
 
-        compositeDisposable += timerState.subscribe {
+        compositeDisposable += timerState.subscribe({
             when (it) {
                 Running -> setRunningViewState()
                 Stopped -> setStoppedViewState()
                 Paused -> setPausedViewState()
             }
-        }
+        }, { Timber.e(it) })
 
         binding.playButton.setOnClickListener { timerState.onNext(Running) }
         binding.pauseButton.setOnClickListener { timerState.onNext(Paused) }
@@ -57,6 +60,21 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.stopButton.setOnClickListener { timerState.onNext(Stopped) }
 
         timerViewModel.getActivities()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
+
+    //endregion
+
+    override fun onActivityFinished() {
+        if (hasNextActivity) {
+            onOrderChanged(currentOrder + 1)
+        } else {
+            setStoppedViewState()
+        }
     }
 
     private fun onOrderChanged(currentOrder: Int) {
@@ -68,9 +86,11 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (currentActivities[currentOrder + 1] != null) {
             binding.nextActivityRecycler.adapter =
-                ActivityAdapter(currentActivities[currentOrder + 1]!!)
+                currentActivities[currentOrder + 1]?.let { ActivityAdapter(it) }
         }
     }
+
+    // region view state callbacks
 
     private fun setRunningViewState() {
         binding.playButton.hide()
@@ -81,7 +101,9 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.playPauseLabel.text = getString(R.string.pause_drill)
 
         if (countDownTimer == null) {
-            countDownTimer = timerHelper.createTimer(80000)
+            val currentTime = currentActivities[currentOrder]?.first()?.durationSeconds!!.toLong()
+            countDownTimer =
+                timerHelper.createTimer((currentTime * 1000))
             countDownTimer?.start()
         } else {
             countDownTimer?.resume()
@@ -97,8 +119,6 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.banner.expand()
 
         binding.playPauseLabel.text = getString(R.string.resume_end)
-
-        timerViewModel.timer = timerHelper.currentTime()
     }
 
     private fun setStoppedViewState() {
@@ -109,10 +129,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.playPauseLabel.hide()
     }
 
-    override fun onActivityFinished() {
-        TODO("Not yet implemented")
-    }
-
+    //endregion
 }
 
 interface OnActivityFinishedListener {

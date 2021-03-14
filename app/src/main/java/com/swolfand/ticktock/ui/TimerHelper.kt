@@ -1,7 +1,13 @@
 package com.swolfand.ticktock.ui
 
+import android.os.Parcelable
 import com.swolfand.ticktock.CountDownTimer
 import com.swolfand.ticktock.databinding.ActivityTimerBinding
+import kotlinx.parcelize.Parcelize
+
+private const val MILLIS_IN_HOUR = 3600000
+private const val MILLIS_IN_MINUTE = 60000
+private const val MILLIS_IN_SECOND = 1000
 
 class TimerHelper(
     private val binding: ActivityTimerBinding,
@@ -15,39 +21,26 @@ class TimerHelper(
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val timer = millisUntilFinished.toTimer()
-                if (timer.hour != 0) {
-                    binding.hour.show()
-                    binding.hour.text = timer.hour.toString()
-                } else {
-                    binding.hour.hide()
-                    binding.separator.hide()
-                }
+                with(binding) {
+                    seconds.apply {
+                        show()
+                        text = (millisUntilFinished / 1000).toString()
+                    }
 
-                if (timer.minute != 0) {
-                    binding.minutes.show()
-                    binding.minutes.text = timer.minute.toString()
-                } else {
-                    binding.minutes.hide()
-                    binding.separator2.hide()
-                }
-
-                if (timer.second != 0) {
-                    binding.seconds.show()
-                    binding.seconds.text = timer.second.toString()
-                } else {
-                    binding.seconds.hide()
+                    millis.apply {
+                        show()
+                        text = (millisUntilFinished % 1000).toString()
+                    }
                 }
             }
 
         }.start()
     }
-
-    fun currentTime(): Timer {
-        val hour = if (binding.hour.text.isNullOrEmpty()) 0 else binding.hour.toInt()
-        val min = if (binding.minutes.text.isNullOrEmpty()) 0 else binding.minutes.toInt()
-        val seconds = if (binding.seconds.text.isNullOrEmpty()) 0 else binding.seconds.toInt()
-
-        return Timer(hour, min, seconds)
-    }
 }
+
+@Parcelize
+data class Timer(val second: Int = 0, val millis: Int = 0) : Parcelable
+
+fun Long.toTimer(): Timer = Timer(
+    (this / MILLIS_IN_SECOND).toInt()
+)
