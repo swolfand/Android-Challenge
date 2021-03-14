@@ -65,8 +65,13 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.pauseButton.setOnClickListener { timerState.onNext(Paused) }
         binding.resumeButton.setOnClickListener { timerState.onNext(Running) }
         binding.stopButton.setOnClickListener { timerState.onNext(Stopped) }
+        binding.endButton.setOnClickListener {
+            currentOrder = 0
+            onOrderChanged()
+            resetState()
+        }
 
-        setInitialTime()
+        timerViewModel.getActivities()
     }
 
     override fun onDestroy() {
@@ -90,13 +95,6 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         }
     }
 
-    private fun setInitialTime() {
-        binding.playPauseLabel.text = getString(R.string.play_drill)
-        binding.seconds.text = currentModel.durationSeconds.toString()
-        binding.millis.text = getString(R.string.zero_zero)
-    }
-
-
     private fun onOrderChanged() {
         binding.currentActivityRecycler.adapter = ActivityAdapter(currentActivities[currentOrder]!!)
 
@@ -109,12 +107,15 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     // region view state callbacks
 
     private fun setRunningViewState() {
-        binding.playButton.hide()
-        binding.resumeStop.hide()
-        binding.banner.collapse()
+        binding.apply {
+            playButton.hide()
+            resumeStop.hide()
+            banner.collapse()
 
-        binding.pauseButton.show()
-        binding.playPauseLabel.text = getString(R.string.pause_drill)
+            pauseButton.show()
+            playPauseLabel.text = getString(R.string.pause_drill)
+        }
+
 
         if (countDownTimer == null) {
             val currentTime = currentActivities[currentOrder]?.first()?.durationSeconds!!.toLong()
@@ -128,29 +129,33 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 
     private fun setPausedViewState() {
         countDownTimer?.pause()
-        binding.playButton.hide()
-        binding.pauseButton.hide()
-
-        binding.resumeStop.show()
-        binding.banner.expand()
-
-        binding.playPauseLabel.text = getString(R.string.resume_end)
+        binding.apply {
+            playButton.hide()
+            pauseButton.hide()
+            resumeStop.show()
+            banner.expand()
+            playPauseLabel.text = getString(R.string.resume_end)
+        }
     }
 
     private fun setStoppedViewState() {
-        binding.endButton.show()
-        binding.playButton.hide()
-        binding.pauseButton.hide()
-        binding.resumeStop.hide()
-        binding.playPauseLabel.hide()
+        binding.apply {
+            endButton.show()
+            playButton.hide()
+            pauseButton.hide()
+            resumeStop.hide()
+            playPauseLabel.hide()
+        }
     }
 
     private fun resetState() {
-        binding.endButton.hide()
-        binding.pauseButton.hide()
-        binding.stopButton.hide()
-        binding.playButton.show()
-        binding.playPauseLabel.text = getText(R.string.play_drill)
+        binding.apply {
+            endButton.hide()
+            pauseButton.hide()
+            stopButton.hide()
+            playButton.show()
+            playPauseLabel.text = getText(R.string.play_drill)
+        }
     }
 
     //endregion

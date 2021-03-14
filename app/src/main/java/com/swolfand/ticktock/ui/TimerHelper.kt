@@ -9,7 +9,7 @@ class TimerHelper(
 ) {
 
     fun createTimer(countDownAmount: Long): CountDownTimer {
-        return object : CountDownTimer(countDownAmount, 10) {
+        return object : CountDownTimer(countDownAmount, 20) {
             override fun onFinish() {
                 listener?.onActivityFinished()
             }
