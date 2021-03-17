@@ -39,6 +39,8 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         binding.nextActivityRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        setInitialState()
+
         timerHelper = TimerHelper(binding, this)
 
         compositeDisposable += timerViewModel
@@ -47,7 +49,6 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             .subscribe {
                 currentActivities = it
                 currentOrder = it.keys.minOrNull()!!
-                setInitialState()
                 onOrderChanged()
             }
 
