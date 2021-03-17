@@ -11,14 +11,11 @@ import com.swolfand.ticktock.plusAssign
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
     private val timerViewModel: TimerViewModel by viewModels()
     private val compositeDisposable = CompositeDisposable()
-    private val timerState: PublishSubject<TimerState> = PublishSubject.create()
 
     private var countDownTimer: CountDownTimer? = null
     private var currentOrder: Int = 0
@@ -54,23 +51,12 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
                 onOrderChanged()
             }
 
-        compositeDisposable += timerState.subscribe({
-            when (it) {
-                Running -> setRunningViewState()
-                Stopped -> setStoppedViewState()
-                Paused -> setPausedViewState()
-            }
-        }, { Timber.e(it) })
-
-        binding.playButton.setOnClickListener { timerState.onNext(Running) }
-        binding.pauseButton.setOnClickListener { timerState.onNext(Paused) }
-        binding.resumeButton.setOnClickListener { timerState.onNext(Running) }
-        binding.stopButton.setOnClickListener { timerState.onNext(Stopped) }
-        binding.endButton.setOnClickListener {
-            currentOrder = 0
-            onOrderChanged()
-            resetState()
-            setInitialState()
+        binding.apply {
+            playButton.setOnClickListener { setRunningViewState() }
+            pauseButton.setOnClickListener { setPausedViewState() }
+            resumeButton.setOnClickListener { setRunningViewState() }
+            stopButton.setOnClickListener { setStoppedViewState() }
+            endButton.setOnClickListener { setEndViewState() }
         }
 
         timerViewModel.getActivities()
@@ -149,6 +135,13 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
         }
     }
 
+    private fun setEndViewState() {
+        currentOrder = 0
+        onOrderChanged()
+        resetState()
+        setInitialState()
+    }
+
     private fun resetState() {
         binding.apply {
             endButton.hide()
@@ -171,8 +164,3 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
 interface OnActivityFinishedListener {
     fun onActivityFinished()
 }
-
-sealed class TimerState
-object Running : TimerState()
-object Stopped : TimerState()
-object Paused : TimerState()
