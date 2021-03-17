@@ -50,6 +50,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             .subscribe {
                 currentActivities = it
                 currentOrder = it.keys.minOrNull()!!
+                setInitialState()
                 onOrderChanged()
             }
 
@@ -69,6 +70,7 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             currentOrder = 0
             onOrderChanged()
             resetState()
+            setInitialState()
         }
 
         timerViewModel.getActivities()
@@ -116,7 +118,6 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             playPauseLabel.text = getString(R.string.pause_drill)
         }
 
-
         if (countDownTimer == null) {
             val currentTime = currentActivities[currentOrder]?.first()?.durationSeconds!!.toLong()
             countDownTimer =
@@ -155,10 +156,16 @@ class TimerActivity : AppCompatActivity(), OnActivityFinishedListener {
             stopButton.hide()
             playButton.show()
             playPauseLabel.text = getText(R.string.play_drill)
+            banner.collapse(true)
         }
     }
 
     //endregion
+
+    private fun setInitialState() {
+        binding.seconds.text = currentModel.durationSeconds.toString()
+        binding.millis.text = getString(R.string.zero_zero)
+    }
 }
 
 interface OnActivityFinishedListener {
